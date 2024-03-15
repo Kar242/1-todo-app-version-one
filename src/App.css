@@ -1,0 +1,33 @@
+h1{
+    font-weight: 700 !important;
+    font-size: 40px !important;
+    
+    margin: 10px !important;
+    margin-bottom: 20px !important;
+    background-image: linear-gradient(blue , skyblue);
+}
+
+
+
+.items-container{
+    border: solid 2px black;
+    border-radius: 1.5%;
+    width: 500px;
+    margin-top: 50px;
+    text-align: left;
+    
+}
+
+
+.Phone{
+    width: 300px;
+    
+}
+
+.Email{
+    width: 300px;
+}
+
+
+
+
