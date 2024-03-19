@@ -1,7 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { getFormData } from "../store/AppStore";
 import { todoActions } from "../store/Todo-Reducer";
 
 function TodoItem({ name, email, phone, text }) {

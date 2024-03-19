@@ -1,26 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Button, Grid, createSvgIcon } from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
 import { getFormData } from "../store/AppStore";
 import { useDispatch } from "react-redux";
 import { formActions } from "../store/form-data-reducer";
 import { todoActions } from "../store/Todo-Reducer";
 
-// const PlusIcon = createSvgIcon(
-//   <svg
-//     xmlns="http://www.w3.org/2000/svg"
-//     fill="none"
-//     viewBox="0 0 24 24"
-//     strokeWidth={1.5}
-//     stroke="currentColor"
-//   >
-//     <path
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//       d="M12 4.5v15m7.5-7.5h-15"
-//     />
-//   </svg>,
-//   "Plus"
-// );
+
 
 function validateFormData(errors, formData) {
   const errorLength = Object.values(errors).some((error) => error.length > 0);
@@ -30,7 +15,7 @@ function validateFormData(errors, formData) {
   return errorLength || formDataLength;
 }
 
-function FormComponent({ onNewItem }) {
+function FormComponent() {
   const [errors, setErrors] = useState({
     email: "",
     phoneNumber: "",
