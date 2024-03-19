@@ -4,7 +4,7 @@ h1{
     
     margin: 10px !important;
     margin-bottom: 20px !important;
-    background-image: linear-gradient(blue , skyblue);
+    background-image: linear-gradient(rgb(78, 193, 235) , skyblue);
 }
 
 
@@ -12,7 +12,7 @@ h1{
 .items-container{
     border: solid 2px black;
     border-radius: 1.5%;
-    width: 500px;
+    width: 460px;
     margin-top: 50px;
     text-align: left;
     
@@ -28,6 +28,21 @@ h1{
     width: 300px;
 }
 
+.Name{
+    width: 300px;
+}
+
+.Text{
+    width: 300px;
+    margin: 15px !important;
+}
+
+.Form{
+    border: 2px solid black;
+    width: 340px;
+    height: 400px;
+        
+}
 
 
 

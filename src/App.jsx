@@ -3,13 +3,20 @@ import TodoItems from "./components/TodoItems";
 import "./App.css";
 import { useState } from "react";
 import FormComponent from "./components/TodoForm";
+import { getFormData } from "./store/AppStore";
 
 function App() {
   const [todoItems, setTodoItems] = useState([]);
+  const { name, email, phone, text } = getFormData((state) => state.formData);
 
-  const handleNewItem = (itemName, itemDueDate) => {
-    console.log(`New item Added: ${itemName} Date: ${itemDueDate}`);
-    const newTodoItems = [...todoItems, { name: itemName, date: itemDueDate }];
+  const handleNewItem = (itemName, itemDueDate, itemText) => {
+    console.log(
+      `New item Added: ${itemName} Date: ${itemDueDate} Name: ${name}`
+    );
+    const newTodoItems = [
+      ...todoItems,
+      { name: itemName, date: itemDueDate, myName: name, text: itemText },
+    ];
 
     setTodoItems(newTodoItems);
   };
@@ -22,7 +29,7 @@ function App() {
   return (
     <center className="todo-container">
       <AppName />
-      <FormComponent onNewItem={handleNewItem} />
+      <FormComponent />
       {/* <AddTODO onNewItem={handleNewItem} /> */}
 
       <TodoItems todoItems={todoItems} onDeleteClick={handleDeleteItem} />

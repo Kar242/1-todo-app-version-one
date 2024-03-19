@@ -1,15 +1,18 @@
+import { getFormData } from "../store/AppStore";
 import TodoItem from "./TodoItem";
 
-const TodoItems = ({ todoItems, onDeleteClick }) => {
+const TodoItems = () => {
+  const todoData = getFormData((state) => state.todoData.todoitem);
   return (
     <>
       <div className="items-container">
-        {todoItems.map((items) => (
+        {todoData?.map((item, index) => (
           <TodoItem
-            key={items.name}
-            todoName={items.name}
-            todoDate={items.date}
-            onDeleteClick={onDeleteClick}
+            key={`${item.name}-${index}`}
+            name={item.name}
+            email={item.email}
+            phone={item.phone}
+            text={item.text}
           />
         ))}
       </div>

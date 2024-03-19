@@ -1,77 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TextField, Button, Grid, createSvgIcon } from "@mui/material";
+import { getFormData } from "../store/AppStore";
+import { useDispatch } from "react-redux";
+import { formActions } from "../store/form-data-reducer";
+import { todoActions } from "../store/Todo-Reducer";
 
-const PlusIcon = createSvgIcon(
-  // credit: plus icon from https://heroicons.com/
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M12 4.5v15m7.5-7.5h-15"
-    />
-  </svg>,
-  "Plus"
-);
+// const PlusIcon = createSvgIcon(
+//   <svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     viewBox="0 0 24 24"
+//     strokeWidth={1.5}
+//     stroke="currentColor"
+//   >
+//     <path
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//       d="M12 4.5v15m7.5-7.5h-15"
+//     />
+//   </svg>,
+//   "Plus"
+// );
+
+function validateFormData(errors, formData) {
+  const errorLength = Object.values(errors).some((error) => error.length > 0);
+  const formDataLength = Object.values(formData).some(
+    (value) => value?.length === 0
+  );
+  return errorLength || formDataLength;
+}
 
 function FormComponent({ onNewItem }) {
-  const [userEmail, setUserEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [errors, setErrors] = useState({ email: "", phoneNumber: "" });
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [errors, setErrors] = useState({
+    email: "",
+    phoneNumber: "",
+    text: "",
+    myname: "",
+  });
+  const formData = getFormData((state) => state.formData);
+  const todoItems = getFormData((state) => state.todoData.todoitem);
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     let error = "";
     if (name === "email") {
-      setUserEmail(e.target.value);
+      dispatch(formActions.setEmail({ email: e.target.value }));
       const emailRegex = /^\S+@\S+\.\S+$/;
       error = !emailRegex.test(value) ? "Invalid email format" : "";
     } else if (name === "phoneNumber") {
-      setPhoneNumber(e.target.value);
+      dispatch(formActions.setPhone({ phone: e.target.value }));
       const phoneRegex = /^\d{10}$/;
       error = !phoneRegex.test(value) ? "Invalid phone number" : "";
+    } else if (name === "text") {
+      dispatch(formActions.setText({ text: e.target.value }));
+      if (value.length < 5 || value.length > 254) {
+        error = "Input must be between 5 and 254 characters.";
+      } else {
+        setErrors("");
+      }
+    } else if (name === "myname") {
+      dispatch(formActions.setName({ name: e.target.value }));
+      const mynameRegex = /^[A-Z][a-z]*$/;
+      error = !mynameRegex.test(value) ? "Invalid Name Format" : "";
+      if (error === "") {
+        const isNameExists = todoItems.some(
+          (obj) => obj.name === e.target.value
+        );
+        if (isNameExists) {
+          error = "Name Already Exists";
+        }
+      }
     }
     setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onNewItem(userEmail, phoneNumber);
-    setPhoneNumber("");
-    setUserEmail("");
-    setIsDisabled(true);
+    dispatch(
+      todoActions.setTodoItem([
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          text: formData.text,
+        },
+      ])
+    );
+    dispatch(formActions.resetForm());
   };
 
-  useEffect(() => {
-    const status =
-      userEmail.length === 0 ||
-      phoneNumber.length === 0 ||
-      errors.email.length !== 0 ||
-      errors.phoneNumber.length !== 0;
-    if (status) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
-    }
-  }, [userEmail, phoneNumber, errors]);
-
- 
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="Form">
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Enter text"
+            name="text"
+            className="Text"
+            value={formData.text}
+            onChange={handleInputChange}
+            error={!!errors.text}
+            helperText={errors.text}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Enter name"
+            name="myname"
+            className="Name"
+            value={formData.name}
+            onChange={handleInputChange}
+            error={!!errors.myname}
+            helperText={errors.myname}
+          />
+        </Grid>
         <Grid item xs={12}>
           <TextField
             label="Email"
             name="email"
             className="Email"
-            value={userEmail}
+            value={formData.email}
             onChange={handleInputChange}
             error={!!errors.email}
             helperText={errors.email}
@@ -82,7 +131,7 @@ function FormComponent({ onNewItem }) {
             label="Phone Number"
             name="phoneNumber"
             className="Phone"
-            value={phoneNumber}
+            value={formData.phone}
             onChange={handleInputChange}
             error={!!errors.phoneNumber}
             helperText={errors.phoneNumber}
@@ -93,9 +142,9 @@ function FormComponent({ onNewItem }) {
             type="submit"
             variant="contained"
             color="primary"
-            disabled={isDisabled}
+            disabled={validateFormData(errors, formData)}
           >
-            <PlusIcon />
+            Submit
           </Button>
         </Grid>
       </Grid>
