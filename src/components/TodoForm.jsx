@@ -4,8 +4,7 @@ import { getFormData } from "../store/AppStore";
 import { useDispatch } from "react-redux";
 import { formActions } from "../store/form-data-reducer";
 import { todoActions } from "../store/Todo-Reducer";
-
-
+import { useNavigate } from "react-router-dom";
 
 function validateFormData(errors, formData) {
   const errorLength = Object.values(errors).some((error) => error.length > 0);
@@ -25,6 +24,7 @@ function FormComponent() {
   const formData = getFormData((state) => state.formData);
   const todoItems = getFormData((state) => state.todoData.todoitem);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,6 +73,7 @@ function FormComponent() {
       ])
     );
     dispatch(formActions.resetForm());
+    navigate("/todo");
   };
 
   return (
@@ -80,7 +81,7 @@ function FormComponent() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Enter text"
+            label="Note"
             name="text"
             className="Text"
             value={formData.text}

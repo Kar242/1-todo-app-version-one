@@ -20,7 +20,7 @@ function TodoItem({ name, email, phone, text }) {
               dispatch(todoActions.deleteTodoItem({ todoName: name }))
             }
           >
-            <DeleteIcon />
+            <DeleteIcon className="delete"/>
           </Button>
         </div>
       </div>

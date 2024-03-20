@@ -1,10 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif !important;
+  }
+
+
 h1{
     font-weight: 700 !important;
     font-size: 40px !important;
     
     margin: 10px !important;
     margin-bottom: 20px !important;
-    background-image: linear-gradient(rgb(78, 193, 235) , skyblue);
+    background-image: linear-gradient(to left, #553c9a, #b393d3);
 }
 
 
@@ -21,28 +30,50 @@ h1{
 
 .Phone{
     width: 300px;
-    
+    background-color: #303245;
+    border-radius: 12px;
 }
 
 .Email{
     width: 300px;
+    background-color: #303245;
+    border-radius: 12px;
 }
 
 .Name{
     width: 300px;
+    background-color: #303245;
+    border-radius: 12px;
 }
 
 .Text{
     width: 300px;
-    margin: 15px !important;
+    background-color: #303245;
+    border-radius: 12px;
 }
 
 .Form{
-    border: 2px solid black;
-    width: 340px;
-    height: 400px;
+background-color: #15172b;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 500px;
+  padding: 20px;
+  width: 350px;
+  box-shadow: 10px 9px 10px #15172b;
+    
+    
         
 }
 
+.container{
+    box-shadow: 10px 7px 10px #15172b;
+    color: white;
+    background-color: #15172b;
+}
+
+.delete{
+    color: red;
+    margin-right: 40px;
+}
 
 
